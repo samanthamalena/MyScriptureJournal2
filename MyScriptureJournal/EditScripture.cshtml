@@ -1,0 +1,90 @@
+﻿@{  Layout = "~/_Layout.cshtml";
+    Page.Title = "Edit a Scripture";
+
+
+    var book = "";
+    var scripture = "";
+    var chapter = "";
+    var verse = "";
+    var scriptureId = "";
+    if (!IsPost)
+    {
+        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt())
+        {
+            scriptureId = Request.QueryString["ID"];
+            var db = Database.Open("WebPagesScripture");
+            var dbCommand = "SELECT * FROM Scripture WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, scriptureId);
+
+            if (row != null)
+            {
+                book = row.Book;
+                scripture = row.Scripture;
+                chapter = row.Chapter;
+                verse = row.verse;
+            }
+            else
+            {
+                Validation.AddFormError("No scripture was selected.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No scripture was selected.");
+        }
+    }
+
+    if (IsPost)
+    {
+        Validation.RequireField("book", "You must enter a book");
+        Validation.RequireField("scripture", "Scripture is required");
+        Validation.RequireField("chapter", "You haven't entered a chapter");
+        Validation.RequireField("verse", "Don't forget to add a verse");
+        Validation.RequireField("movieid", "No movie ID was submitted!");
+
+        book = Request.Form["book"];
+        scripture = Request.Form["scripture"];
+        chapter = Request.Form["chapter"];
+        verse = Request.Form["verse"];
+        scriptureId = Request.Form["scriptureId"];
+
+        if (Validation.IsValid())
+        {
+            var db = Database.Open("WebPagesScriptures");
+            var updateCommand = "UPDATE Scriptures SET Book=@0, Scripture=@1, Chapter=@2, Verse=@3 WHERE Id=@4";
+            db.Execute(updateCommand, book, scripture, chapter, verse, scriptureId);
+            Response.Redirect("~/Scriptures");
+        }
+    }
+}
+    <h2>Edit a Scripture</h2>
+    @Html.ValidationSummary()
+    <form method="post">
+        <fieldset>
+            <legend>Scripture Journal</legend>
+
+            <p>
+                <label for="book">Book:</label>
+                <input type="text" name="book" value="@book" />
+            </p>
+
+            <p>
+                <label for="scripture">Scripture:</label>
+                <input type="text" name="scripture" value="@scripture" />
+            </p>
+
+            <p>
+                <label for="chapter">Chapter:</label>
+                <input type="text" name="chapter" value="@chapter" />
+            </p>
+
+            <p>
+                <label for="verse">Verse:</label>
+                <input type="text" name="verse" value="@verse" />
+            </p>
+
+            <input type="hidden" name="scriptureid" value="@scriptureId" />
+
+            <p><input type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+        </fieldset>
+    </form>

@@ -1,0 +1,60 @@
+﻿@{  
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Add a Scripture";
+
+    Validation.RequireField("book", "You must enter a book");
+    Validation.RequireField("scripture", "Scripture is required");
+    Validation.RequireField("chapter", "You haven't entered a chapter");
+    Validation.RequireField("verse", "Don't forget to add a verse");
+
+    var book = "";
+    var scripture = "";
+    var chapter = "";
+    var verse = "";
+
+    if (IsPost && Validation.IsValid())
+    {
+        book = Request.Form["book"];
+        scripture = Request.Form["scripture"];
+        chapter = Request.Form["chapter"];
+        verse = Request.Form["verse"];
+
+        var db = Database.Open("WebPagesScriptures");
+        var insertCommand = "INSERT INTO Scriptures (Book, Scripture, Chapter, Verse) Values(@0, @1, @2, @3)";
+        db.Execute(insertCommand, book, scripture, chapter, verse);
+        Response.Redirect("~/Scriptures");
+    }
+}
+
+    <h1>Add a Scripture</h1>
+    @Html.ValidationSummary()
+    <form method="post">
+        <fieldset>
+            <legend>Scripture Journal</legend>
+            <p>
+                <label for="book">Book:</label>
+                <input type="text" name="book" value="@Request.Form["book"]" />
+                @Html.ValidationMessage("book")
+            </p>
+
+            <p>
+                <label for="scripture">Scripture:</label>
+                <input type="text" name="scripture" value="@Request.Form["scripture"]" />
+                @Html.ValidationMessage("scripture")
+            </p>
+
+            <p>
+                <label for="chapter">Chapter:</label>
+                <input type="text" name="chapter" value="@Request.Form["chapter"]" />
+                @Html.ValidationMessage("chapter")
+            </p>
+
+            <p>
+                <label for="verse">Verse:</label>
+                <input type="text" name="verse" value="@Request.Form["verse"]" />
+                @Html.ValidationMessage("verse")
+            </p>
+
+            <p><input type="submit" name="buttonSubmit" value="Add Scripture" /></p>
+        </fieldset>
+    </form>
