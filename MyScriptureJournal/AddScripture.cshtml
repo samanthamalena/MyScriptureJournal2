@@ -11,6 +11,7 @@
     var scripture = "";
     var chapter = "";
     var verse = "";
+   
 
     if (IsPost && Validation.IsValid())
     {
@@ -18,6 +19,7 @@
         scripture = Request.Form["scripture"];
         chapter = Request.Form["chapter"];
         verse = Request.Form["verse"];
+        
 
         var db = Database.Open("WebPagesScriptures");
         var insertCommand = "INSERT INTO Scriptures (Book, Scripture, Chapter, Verse) Values(@0, @1, @2, @3)";
@@ -54,6 +56,7 @@
                 <input type="text" name="verse" value="@Request.Form["verse"]" />
                 @Html.ValidationMessage("verse")
             </p>
+
 
             <p><input type="submit" name="buttonSubmit" value="Add Scripture" /></p>
         </fieldset>

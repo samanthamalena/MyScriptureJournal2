@@ -6,10 +6,10 @@
     var selectCommand = "SELECT * FROM Scriptures";
     var searchTerm = "";
 
-    if (!Request.QueryString["searchChapter"].IsEmpty())
+    if (!Request.QueryString["searchBook"].IsEmpty())
     {
         selectCommand = "SELECT * FROM Scriptures WHERE Chapter = @0";
-        searchTerm = Request.QueryString["searchChapter"];
+        searchTerm = Request.QueryString["searchBook"];
     }
 
     if (!Request.QueryString["searchVerse"].IsEmpty())
@@ -25,9 +25,9 @@
     <h1>List Scriptures</h1>
     <form method="get">
         <div>
-            <label for="searchChapter">Chapter to look for:</label>
-            <input type="text" name="searchChapter" value="" />
-            <input type="Submit" value="Search Chapter" /><br />
+            <label for="searchBook">Book to look for:</label>
+            <input type="text" name="searchBook" value="@Request.QueryString["searchBook"]" />
+            <input type="Submit" value="Search Book" /><br />
             (Leave blank to list all Scriptures.)<br />
         </div>
         <div>

@@ -1,4 +1,4 @@
-﻿@{  Layout = "~/_Layout.cshtml";
+﻿@{ Layout = "~/_Layout.cshtml";
     Page.Title = "Edit a Scripture";
 
 
@@ -7,6 +7,7 @@
     var chapter = "";
     var verse = "";
     var scriptureId = "";
+   
     if (!IsPost)
     {
         if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt())
@@ -22,6 +23,7 @@
                 scripture = row.Scripture;
                 chapter = row.Chapter;
                 verse = row.verse;
+               
             }
             else
             {
@@ -57,34 +59,35 @@
         }
     }
 }
-    <h2>Edit a Scripture</h2>
-    @Html.ValidationSummary()
-    <form method="post">
-        <fieldset>
-            <legend>Scripture Journal</legend>
+<h2>Edit a Scripture</h2>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Journal</legend>
 
-            <p>
-                <label for="book">Book:</label>
-                <input type="text" name="book" value="@book" />
-            </p>
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@book" />
+        </p>
 
-            <p>
-                <label for="scripture">Scripture:</label>
-                <input type="text" name="scripture" value="@scripture" />
-            </p>
+        <p>
+            <label for="scripture">Scripture:</label>
+            <input type="text" name="scripture" value="@scripture" />
+        </p>
 
-            <p>
-                <label for="chapter">Chapter:</label>
-                <input type="text" name="chapter" value="@chapter" />
-            </p>
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@chapter" />
+        </p>
 
-            <p>
-                <label for="verse">Verse:</label>
-                <input type="text" name="verse" value="@verse" />
-            </p>
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@verse" />
+        </p>
 
-            <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <input type="hidden" name="scriptureid" value="@scriptureId" />
 
-            <p><input type="submit" name="buttonSubmit" value="Submit Changes" /></p>
-        </fieldset>
-    </form>
+        <p><input type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+    </fieldset>
+</form>
+<p><a href="~/Scriptures">Return to scriptures listed</a></p>
